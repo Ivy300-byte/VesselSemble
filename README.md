@@ -9,4 +9,9 @@ Links to Other Necessary Folders:
 - https://zenodo.org/records/4003545 - Look for and Dowanload Task008_HepaticVessel.zip.
 - https://drive.google.com/drive/folders/1V9NtZingw9XQmFGbGGFOE59vtF6iDeck - Look for and Download LiVS_reannotated_subset_F0_model160000.pt.
 
+Other things you will need:
+- CUDA Toolkit
+- Slurm
+- Python Interperter - 3.10.0 version (you can also use pyenv) 
+
 Note: Please follow the specficic configuration requirements for each listed GitHub repository.
