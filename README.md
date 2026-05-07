@@ -9,4 +9,4 @@ Links to Other Necessary Folders:
 - https://zenodo.org/records/4003545 - Look for and Dowanload Task008_HepaticVessel.zip.
 - https://drive.google.com/drive/folders/1V9NtZingw9XQmFGbGGFOE59vtF6iDeck - Look for and Download LiVS_reannotated_subset_F0_model160000.pt.
 
-Note: Please follow the specfici configuration requirement for each listed GitHub repository.
+Note: Please follow the specficic configuration requirements for each listed GitHub repository.
