@@ -17,7 +17,8 @@ Other things you will need:
 Note: Please follow the specficic configuration requirements for each listed GitHub repository. For nnUNet you would need to do all preprocessing steps before you can download the model an run inferences on it. The model I used was the 3D-fullres configuration, and I used the Inference Script that nnUNetv1 provides. For GAT the only you's need to do is follow the file structure for initiating you pre-trained weights.
 
 First Ensemble:
-* Inference - sbatch Infer_MSD_.sh
+* Inference
+    `sbatch Infer_MSD_.sh`
 * Ensemble -  
 
 
