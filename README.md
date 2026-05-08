@@ -20,7 +20,7 @@ Note: Please follow the specficic configuration requirements for each listed Git
 First Setup:
 * Inference
     `sbatch Infer_MSD_.sh`
-* Ensemble
+* Ensemble (set the file path to Inference_2.py file)
   `sbatch Ensemble.sh`
 
 Second Setup:
