@@ -25,5 +25,6 @@ First Setup:
 Second Setup:
 * Inference
     `sbatch Infer_MSD_2.sh`
-
+* Ensemble
+     `sbatch Ensemble.sh`
 
