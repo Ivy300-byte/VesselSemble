@@ -9,9 +9,10 @@ Links to Other Necessary Folders:
 - https://zenodo.org/records/4003545 - Look for and Dowanload Task008_HepaticVessel.zip.
 - https://drive.google.com/drive/folders/1V9NtZingw9XQmFGbGGFOE59vtF6iDeck - Look for and Download LiVS_reannotated_subset_F0_model160000.pt.
 
-Other things you will need:
+Other Prequisites:
 - CUDA Toolkit
-- Slurm
+- Slurm (open source, I used slurm-25.11.2)
+- Munge (you can get from pip)
 - Python Interperter - 3.10.0 version (you can also use pyenv) 
 
 Note: Please follow the specficic configuration requirements for each listed GitHub repository. For nnUNet you would need to do all preprocessing steps before you can download the model an run inferences on it. The model I used was the 3D-fullres configuration, and I used the Inference Script that nnUNetv1 provides. For GATSegDiff the only you's need to do is follow the file structure for initiating your pre-trained weights.
