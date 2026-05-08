@@ -28,3 +28,9 @@ Second Setup:
 * Ensemble
      `sbatch Ensemble.sh`
 
+Third Setup:
+* Inference
+     `sbatch Infer_MSD_3.sh`
+* Ensemble
+     `sbatch Ensemble_2.sh`
+
