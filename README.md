@@ -19,6 +19,7 @@ Note: Please follow the specficic configuration requirements for each listed Git
 First Ensemble:
 * Inference
     `sbatch Infer_MSD_.sh`
-* Ensemble -  
+* Ensemble
+  `sbatch Ensemble.sh` 
 
 
