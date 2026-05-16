@@ -1,6 +1,8 @@
 # VesselSemble
 An evaluation of top-performing models for accurate, complete liver vessel segmentation. For this study we looked at the models from by the nnUNet and GATSegDiff pipelines for vessel segmentation, and we were specifically looking at how to GATSegDiff model reacts to noisier, less polished data, as well how the model reacts toawrds other models trained and tested on such data when combined together.
 
+![alt text](/VesselSemble/IMG_1522.jpeg)
+
 These are the links to all necessary repositories for setting the necessary pipelines. They both provide ways to build the model from scratch, but they both also have the models available to download as pretraines weights:
 - https://github.com/ZhangXiaotong015/GATSegDiff 
 - https://github.com/MIC-DKFZ/nnUNet/tree/nnunetv1 - For this experiment you would need to download the MSD Task08 HeapicVessel dataset from the Medical Decathlon google drive link. The link is here:
