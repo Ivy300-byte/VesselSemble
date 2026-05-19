@@ -41,4 +41,4 @@ Second Setup:
 
 For both ensembles there are BinaryMask processing scripts provided so as to be able to view them in image software. One is meant for use with the ensemble concerning the 3Dircadb1 dataset and another for use with the ensemble concerning the Task08 Hepatic Vessel dataset. They are linked in the repository. 
 
-We used a graph created out of the label annotations of the Liver CT Deformable Image Registration Validation Dataset. The Graph is provided in this repository for use when running analysis on the models, and the script for running performance metrics are provided for use as well. The link to the Github repository connected to that dataset is provided here: https://github.com/deshanyang/Liver-DIR-QA.
+We used a graph created out of the label annotations of the Liver CT Deformable Image Registration Validation Dataset. The Graph and the testing script is provided in this repository for use when running analysis on the models, and the script for running performance metrics are provided for use as well. The link to the Github repository connected to that dataset is provided here: https://github.com/deshanyang/Liver-DIR-QA. 
