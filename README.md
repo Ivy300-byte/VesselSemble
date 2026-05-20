@@ -43,7 +43,7 @@ For both ensembles there are BinaryMask processing scripts provided so as to be 
 
 We used a graph created out of the label annotations of the Liver CT Deformable Image Registration Validation Dataset. The Graph and the testing script is provided in this repository for use when running analysis on the models, and the script for running performance metrics are provided for use as well. The link to the Github repository connected to that dataset is provided here: https://github.com/deshanyang/Liver-DIR-QA. 
 
-![alt text](https://github.com/Ivy300-byte/VesselSemble/blob/main/validation_tda_comparison.png)
+![alt text](https://github.com/Ivy300-byte/VesselSemble/blob/main/validation_tda_comparison_1.png)
 
 The results of the ensemble made of the nUNet predictions and the GATSegDiff predictions on the MSD Tak08 Hepatic Vessel Dataset.
 
