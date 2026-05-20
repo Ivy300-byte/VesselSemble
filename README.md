@@ -46,3 +46,5 @@ We used a graph created out of the label annotations of the Liver CT Deformable 
 ![alt text](https://github.com/Ivy300-byte/VesselSemble/blob/main/validation_tda_comparison.png)
 
 The results of the ensemble made of the nUNet predictions and the GATSegDiff predictions on the MSD Tak08 Hepatic Vessel Dataset.
+
+![alt text](https://github.com/Ivy300-byte/VesselSemble/blob/main/validation_tda_comparison.png)
