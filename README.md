@@ -50,3 +50,6 @@ The results of the GATSegDiff predictions on the original 3D-ircadb-01 Dataset.
 
 ![alt text](https://github.com/Ivy300-byte/VesselSemble/blob/main/high_visibility_vessel_comparison_4.png)
 
+The results of the ensemble of the GATSegDiff and nnUNet predictions on the MSD Task08 HepaticVessel Dataset.
+
+![alt text](https://github.com/Ivy300-byte/VesselSemble/blob/main/high_visibility_vessel_comparison_2.png)
