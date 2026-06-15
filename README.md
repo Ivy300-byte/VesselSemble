@@ -41,12 +41,21 @@ Second Setup:
 
 For both ensembles there are BinaryMask processing scripts provided so as to be able to view them in image software. One is meant for use with the ensemble concerning the 3Dircadb1 dataset and another for use with the ensemble concerning the Task08 Hepatic Vessel dataset. They are linked in the repository. 
 
-We used a graph created out of the label annotations of the Liver CT Deformable Image Registration Validation Dataset. The Graph and the testing script is provided in this repository for use when running analysis on the models, and the script for running performance metrics are provided for use as well. The link to the Github repository connected to that dataset is provided here: https://github.com/deshanyang/Liver-DIR-QA. 
+We created topological graphs out of the ground truth segmentations of the MSD dataset and the 3Dircadb1 Dataset. The graphs were created using simultaneous plotting mask generation from both the ground truth folder and the prediction folder. The Graphs and the necessary testing scripts are provided in this repository for furhter experimentation.  
 
-![alt text](https://github.com/Ivy300-byte/VesselSemble/blob/main/validation_tda_comparison_1.png)
+The results of the nUNet predictions on the MSD Tak08 Hepatic Vessel Dataset.
 
-The results of the ensemble made of the nUNet predictions and the GATSegDiff predictions on the MSD Tak08 Hepatic Vessel Dataset.
+![alt text](https://github.com/Ivy300-byte/VesselSemble/blob/main/high_visibility_vessel_comparison.png)
 
-![alt text](https://github.com/Ivy300-byte/VesselSemble/blob/main/validation_tda_comparison.png)
+The results of the GATSegDiff on the MSD Tak08 Hepatic Vessel Dataset.
 
-The results of the ensemble made of the nUNet predictions and the GATSegDiff predictions on the original 3D-ircadb-01 Dataset.
+![alt text](https://github.com/Ivy300-byte/VesselSemble/blob/main/high_visibility_vessel_comparison_3.png)
+
+The results of the nUNet predictions on the original 3D-ircadb-01 Dataset.
+
+![alt text](https://github.com/Ivy300-byte/VesselSemble/blob/main/high_visibility_vessel_comparison_5.png)
+
+The results of the GATSegDiff predictions on the original 3D-ircadb-01 Dataset.
+
+![alt text](https://github.com/Ivy300-byte/VesselSemble/blob/main/high_visibility_vessel_comparison_4.png)
+
