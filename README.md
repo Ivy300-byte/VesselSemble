@@ -32,24 +32,57 @@ Second Setup:
 
 For both ensembles there are BinaryMask processing scripts provided so as to be able to view them in image software. One is meant for use with the ensemble concerning the 3Dircadb1 dataset and another for use with the ensemble concerning the Task08 Hepatic Vessel dataset. They are linked in the repository. 
 
-We created topological graphs out of the ground truth segmentations of the MSD dataset and the 3Dircadb1 Dataset. The graphs were created using simultaneous plotting mask generation from both the ground truth folder and the prediction folder. The Graphs and the necessary testing scripts are provided in this repository for furhter experimentation.  
+Some of our datases didn't come wth gorund truth segmentations and we wanted to keeep a uniform mode for data analysis on our models. To tackle this issue, we decided to opt for  unsupervied Topological Data Analysis on all of our predictions, calculating mean_tortuosity, average_branch_length, total_vessel_length, bifurcation_count, fragmentation_errors, and false_loops:  
 
-The results of the nUNet predictions on the MSD Tak08 Hepatic Vessel Dataset.
+The results of the nnUNet predictions on the MSD Tak08 Hepatic Vessel Dataset.
 
-![alt text](https://github.com/Ivy300-byte/VesselSemble/blob/main/high_visibility_vessel_comparison.png)
+![alt text](https://github.com/Ivy300-byte/VesselSemble/blob/main/nnUNet-on-MSD.csv)
 
 The results of the GATSegDiff on the MSD Tak08 Hepatic Vessel Dataset.
 
-![alt text](https://github.com/Ivy300-byte/VesselSemble/blob/main/high_visibility_vessel_comparison_3.png)
+![alt text](https://github.com/Ivy300-byte/VesselSemble/blob/main/GATSegDiff-on-MSD.csv)
 
 The results of the nUNet predictions on the original 3D-ircadb-01 Dataset.
 
-![alt text](https://github.com/Ivy300-byte/VesselSemble/blob/main/high_visibility_vessel_comparison_5.png)
+![alt text](https://github.com/Ivy300-byte/VesselSemble/blob/main/nnUNet-on-3Dircadb.csv)
 
 The results of the GATSegDiff predictions on the original 3D-ircadb-01 Dataset.
 
-![alt text](https://github.com/Ivy300-byte/VesselSemble/blob/main/high_visibility_vessel_comparison_4.png)
+![alt text](https://github.com/Ivy300-byte/VesselSemble/blob/main/GATSegDiff-on-3Dircadb.csv)
 
 The results of the ensemble of the GATSegDiff and nnUNet predictions on the MSD Task08 HepaticVessel Dataset.
 
-![alt text](https://github.com/Ivy300-byte/VesselSemble/blob/main/high_visibility_vessel_comparison_2.png)
+![alt text](https://github.com/Ivy300-byte/VesselSemble/blob/main/GATSegDff-and-nnUNet-on-MSD.csv)
+
+The results of the ensemble of the GATSegDiff and nnUNet predictions on the 3D-ircadb-01 Dataset.
+
+![alt text](https://github.com/Ivy300-byte/VesselSemble/blob/main/GATSegDff-and-nnUNet-on-3Dircadb.csv)
+
+To then understandand what these results mean for these models we've tested, we set up biologivan invarant benchmarks using Murray's Law, Murray's deviatation, and area-expansion. Using our TDA results, we predictied how the statistics affected the numbers seen in each biophysical metric, and we compared it to the baseline metrics we set universally. The three benchmarks we used were "Valid Anatomy", which signifies healthy blood vessels that fit the ideal range for each invariant; "Plausible Tumor" which is mean to account for the reasonable range in which a model's prediction which move away from the ideal scenario given that most of the cases are dealing with hypervascular tumors that significantly disotrt natural physics properties; and lasty, we use "Impossible Hallucination" to represent those prediction's that would move past the plausibily range and generally signifies that a model likely made a serious error. 
+
+The results of the nnUNet predictions on the MSD Tak08 Hepatic Vessel Dataset.
+
+![alt text](https://github.com/Ivy300-byte/VesselSemble/blob/main/nnUNet-on-MSD_Audited_Clinical_Report.csv)
+
+The results of the GATSegDiff on the MSD Tak08 Hepatic Vessel Dataset.
+
+![alt text](https://github.com/Ivy300-byte/VesselSemble/blob/main/GATSegDiff-on-MSD_Audited_Clinical_Report.csv)
+
+The results of the nUNet predictions on the original 3D-ircadb-01 Dataset.
+
+![alt text](https://github.com/Ivy300-byte/VesselSemble/blob/main/nnUNet-on-3Dircadb_Audited_Clinical_Report.csv)
+
+The results of the GATSegDiff predictions on the original 3D-ircadb-01 Dataset.
+
+![alt text](https://github.com/Ivy300-byte/VesselSemble/blob/main/GATSegDiff-on-3Dircadb_Audited_Clinical_Report.csv)
+
+The results of the ensemble of the GATSegDiff and nnUNet predictions on the MSD Task08 HepaticVessel Dataset.
+
+![alt text](https://github.com/Ivy300-byte/VesselSemble/blob/main/GATSegDff-and-nnUNet-on-MSD_Audited_Clinical_Report.csv)
+
+The results of the ensemble of the GATSegDiff and nnUNet predictions on the 3D-ircadb-01 Dataset.
+
+![alt text](https://github.com/Ivy300-byte/VesselSemble/blob/main/GATSegDff-and-nnUNet-on-3Dircadb_Audited_Clinical_Report.csv)
+
+
+
