@@ -1,0 +1,21 @@
+Case_ID,H1_False_Loops,Frag_Errors_H0,Predicted_Murray_Score,Predicted_Area_Expansion,Physics_Shift_Score,Clinical_Audit_Status,Anatomical_Classification,Surgical_Directive
+PATIENT_004,8,245,0.769,1.297,0.231,PLAUSIBLE PATHOLOGY,Tumor Neoangiogenesis Bed,APPROVE: Complex tumor vascularization captured; preserve for clinical trace.
+PATIENT_001,2,230,0.519,1.269,0.481,IMPOSSIBLE HALLUCINATION,Biophysical Invariant Collapse,CRITICAL REJECT: Structure breaks physical laws; software model error.
+PATIENT_002,5,206,0.488,1.268,0.512,PLAUSIBLE PATHOLOGY,Tumor Neoangiogenesis Bed,APPROVE: Complex tumor vascularization captured; preserve for clinical trace.
+PATIENT_005,19,260,0.839,1.269,0.161,IMPOSSIBLE HALLUCINATION,Biophysical Invariant Collapse,CRITICAL REJECT: Structure breaks physical laws; software model error.
+PATIENT_003,11,242,0.658,1.279,0.342,PLAUSIBLE PATHOLOGY,Tumor Neoangiogenesis Bed,APPROVE: Complex tumor vascularization captured; preserve for clinical trace.
+PATIENT_006,9,238,0.694,1.287,0.306,PLAUSIBLE PATHOLOGY,Tumor Neoangiogenesis Bed,APPROVE: Complex tumor vascularization captured; preserve for clinical trace.
+PATIENT_008,6,225,0.509,1.281,0.491,PLAUSIBLE PATHOLOGY,Tumor Neoangiogenesis Bed,APPROVE: Complex tumor vascularization captured; preserve for clinical trace.
+PATIENT_009,14,260,0.853,1.282,0.147,PLAUSIBLE PATHOLOGY,Tumor Neoangiogenesis Bed,APPROVE: Complex tumor vascularization captured; preserve for clinical trace.
+PATIENT_010,6,215,0.617,1.272,0.383,PLAUSIBLE PATHOLOGY,Tumor Neoangiogenesis Bed,APPROVE: Complex tumor vascularization captured; preserve for clinical trace.
+PATIENT_007,6,237,0.685,1.278,0.315,IMPOSSIBLE HALLUCINATION,Biophysical Invariant Collapse,CRITICAL REJECT: Structure breaks physical laws; software model error.
+PATIENT_011,8,244,0.664,1.278,0.336,PLAUSIBLE PATHOLOGY,Tumor Neoangiogenesis Bed,APPROVE: Complex tumor vascularization captured; preserve for clinical trace.
+PATIENT_014,4,208,0.505,1.269,0.495,IMPOSSIBLE HALLUCINATION,Biophysical Invariant Collapse,CRITICAL REJECT: Structure breaks physical laws; software model error.
+PATIENT_013,7,248,0.692,1.279,0.308,PLAUSIBLE PATHOLOGY,Tumor Neoangiogenesis Bed,APPROVE: Complex tumor vascularization captured; preserve for clinical trace.
+PATIENT_015,6,220,0.621,1.282,0.379,PLAUSIBLE PATHOLOGY,Tumor Neoangiogenesis Bed,APPROVE: Complex tumor vascularization captured; preserve for clinical trace.
+PATIENT_017,5,192,0.578,1.265,0.422,PLAUSIBLE PATHOLOGY,Tumor Neoangiogenesis Bed,APPROVE: Complex tumor vascularization captured; preserve for clinical trace.
+PATIENT_018,5,228,0.7,1.301,0.3,PLAUSIBLE PATHOLOGY,Tumor Neoangiogenesis Bed,APPROVE: Complex tumor vascularization captured; preserve for clinical trace.
+PATIENT_016,3,208,0.556,1.275,0.444,PLAUSIBLE PATHOLOGY,Tumor Neoangiogenesis Bed,APPROVE: Complex tumor vascularization captured; preserve for clinical trace.
+PATIENT_019,17,273,0.895,1.279,0.105,PLAUSIBLE PATHOLOGY,Tumor Neoangiogenesis Bed,APPROVE: Complex tumor vascularization captured; preserve for clinical trace.
+PATIENT_012,8,241,0.603,1.277,0.397,PLAUSIBLE PATHOLOGY,Tumor Neoangiogenesis Bed,APPROVE: Complex tumor vascularization captured; preserve for clinical trace.
+PATIENT_020,20,316,0.905,1.275,0.095,IMPOSSIBLE HALLUCINATION,Biophysical Invariant Collapse,CRITICAL REJECT: Structure breaks physical laws; software model error.
