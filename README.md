@@ -48,7 +48,28 @@ The results of the nUNet predictions on the original 3D-ircadb-01 Dataset.
 
 The results of the GATSegDiff predictions on the original 3D-ircadb-01 Dataset.
 
-![alt text](https://github.com/Ivy300-byte/VesselSemble/blob/main/GATSegDiff-on-3Dircadb.csv)
+| case_id              	| model_architecture 	| status  	| total_vessel_length_mm 	| bifurcation_count 	| mean_tortuosity 	| average_branch_length_mm 	| fragmentation_errors_h0 	| false_loops_h1 	|
+|----------------------	|--------------------	|---------	|------------------------	|-------------------	|-----------------	|--------------------------	|-------------------------	|----------------	|
+| pred_3Dircadb1.10_CT 	| GATSegDiff         	| Success 	| 1884.52                	| 123               	| 1.25            	| 7.79                     	| 229                     	| 4              	|
+| pred_3Dircadb1.13_CT 	| GATSegDiff         	| Success 	| 2726.68                	| 187               	| 1.352           	| 7.6                      	| 251                     	| 7              	|
+| pred_3Dircadb1.11_CT 	| GATSegDiff         	| Success 	| 2458.23                	| 197               	| 1.33            	| 6.75                     	| 240                     	| 9              	|
+| pred_3Dircadb1.14_CT 	| GATSegDiff         	| Success 	| 1493.33                	| 97                	| 1.241           	| 8.07                     	| 205                     	| 2              	|
+| pred_3Dircadb1.15_CT 	| GATSegDiff         	| Success 	| 3147.44                	| 249               	| 1.339           	| 7.03                     	| 232                     	| 6              	|
+| pred_3Dircadb1.18_CT 	| GATSegDiff         	| Success 	| 2383.07                	| 91                	| 1.446           	| 13.31                    	| 230                     	| 5              	|
+| pred_3Dircadb1.16_CT 	| GATSegDiff         	| Success 	| 1738.37                	| 129               	| 1.401           	| 7.24                     	| 224                     	| 5              	|
+| pred_3Dircadb1.17_CT 	| GATSegDiff         	| Success 	| 2653.35                	| 178               	| 1.327           	| 8.04                     	| 253                     	| 4              	|
+| pred_3Dircadb1.12_CT 	| GATSegDiff         	| Success 	| 2132.04                	| 216               	| 1.332           	| 5.66                     	| 242                     	| 7              	|
+| pred_3Dircadb1.19_CT 	| GATSegDiff         	| Success 	| 6735.55                	| 444               	| 1.348           	| 7.68                     	| 263                     	| 19             	|
+| pred_3Dircadb1.1_CT  	| GATSegDiff         	| Success 	| 1824.72                	| 131               	| 1.398           	| 7.63                     	| 212                     	| 4              	|
+| pred_3Dircadb1.4_CT  	| GATSegDiff         	| Success 	| 2904.05                	| 113               	| 1.361           	| 13.57                    	| 228                     	| 7              	|
+| pred_3Dircadb1.2_CT  	| GATSegDiff         	| Success 	| 2281.71                	| 190               	| 1.288           	| 6.45                     	| 226                     	| 15             	|
+| pred_3Dircadb1.5_CT  	| GATSegDiff         	| Success 	| 5725.18                	| 490               	| 1.311           	| 6.54                     	| 271                     	| 15             	|
+| pred_3Dircadb1.20_CT 	| GATSegDiff         	| Success 	| 9314.63                	| 730               	| 1.37            	| 7.07                     	| 306                     	| 22             	|
+| pred_3Dircadb1.3_CT  	| GATSegDiff         	| Success 	| 2270.1                 	| 195               	| 1.285           	| 6.47                     	| 247                     	| 9              	|
+| pred_3Dircadb1.6_CT  	| GATSegDiff         	| Success 	| 3702.37                	| 309               	| 1.328           	| 6.59                     	| 254                     	| 13             	|
+| pred_3Dircadb1.8_CT  	| GATSegDiff         	| Success 	| 1665.89                	| 181               	| 1.401           	| 5.43                     	| 224                     	| 4              	|
+| pred_3Dircadb1.9_CT  	| GATSegDiff         	| Success 	| 4789.55                	| 257               	| 1.245           	| 9.68                     	| 260                     	| 14             	|
+| pred_3Dircadb1.7_CT  	| GATSegDiff         	| Success 	| 3312.5                 	| 201               	| 1.305           	| 8.63                     	| 249                     	| 10             	|
 
 The results of the ensemble of the GATSegDiff and nnUNet predictions on the MSD Task08 HepaticVessel Dataset.
 
@@ -237,7 +258,28 @@ The results of the nUNet predictions on the original 3D-ircadb-01 Dataset.
 
 The results of the GATSegDiff predictions on the original 3D-ircadb-01 Dataset.
 
-![alt text](https://github.com/Ivy300-byte/VesselSemble/blob/main/GATSegDiff-on-3Dircadb_Audited_Clinical_Report.csv)
+| Case_ID              	| H1_False_Loops 	| Frag_Errors_H0 	| Predicted_Murray_Score 	| Predicted_Area_Expansion 	| Physics_Shift_Score 	| Clinical_Audit_Status    	| Anatomical_Classification      	| Surgical_Directive                                                            	|
+|----------------------	|----------------	|----------------	|------------------------	|--------------------------	|---------------------	|--------------------------	|--------------------------------	|-------------------------------------------------------------------------------	|
+| PRED_3DIRCADB1.10_CT 	| 4              	| 229            	| 0.563                  	| 1.268                    	| 0.437               	| PLAUSIBLE PATHOLOGY      	| Tumor Neoangiogenesis Bed      	| APPROVE: Complex tumor vascularization captured; preserve for clinical trace. 	|
+| PRED_3DIRCADB1.13_CT 	| 7              	| 251            	| 0.688                  	| 1.279                    	| 0.312               	| PLAUSIBLE PATHOLOGY      	| Tumor Neoangiogenesis Bed      	| APPROVE: Complex tumor vascularization captured; preserve for clinical trace. 	|
+| PRED_3DIRCADB1.11_CT 	| 9              	| 240            	| 0.678                  	| 1.281                    	| 0.322               	| PLAUSIBLE PATHOLOGY      	| Tumor Neoangiogenesis Bed      	| APPROVE: Complex tumor vascularization captured; preserve for clinical trace. 	|
+| PRED_3DIRCADB1.14_CT 	| 2              	| 205            	| 0.482                  	| 1.265                    	| 0.518               	| IMPOSSIBLE HALLUCINATION 	| Biophysical Invariant Collapse 	| CRITICAL REJECT: Structure breaks physical laws; software model error.        	|
+| PRED_3DIRCADB1.15_CT 	| 6              	| 232            	| 0.741                  	| 1.271                    	| 0.259               	| PLAUSIBLE PATHOLOGY      	| Tumor Neoangiogenesis Bed      	| APPROVE: Complex tumor vascularization captured; preserve for clinical trace. 	|
+| PRED_3DIRCADB1.18_CT 	| 5              	| 230            	| 0.696                  	| 1.301                    	| 0.304               	| PLAUSIBLE PATHOLOGY      	| Tumor Neoangiogenesis Bed      	| APPROVE: Complex tumor vascularization captured; preserve for clinical trace. 	|
+| PRED_3DIRCADB1.16_CT 	| 5              	| 224            	| 0.543                  	| 1.284                    	| 0.457               	| PLAUSIBLE PATHOLOGY      	| Tumor Neoangiogenesis Bed      	| APPROVE: Complex tumor vascularization captured; preserve for clinical trace. 	|
+| PRED_3DIRCADB1.17_CT 	| 4              	| 253            	| 0.652                  	| 1.27                     	| 0.348               	| PLAUSIBLE PATHOLOGY      	| Tumor Neoangiogenesis Bed      	| APPROVE: Complex tumor vascularization captured; preserve for clinical trace. 	|
+| PRED_3DIRCADB1.12_CT 	| 7              	| 242            	| 0.595                  	| 1.275                    	| 0.405               	| PLAUSIBLE PATHOLOGY      	| Tumor Neoangiogenesis Bed      	| APPROVE: Complex tumor vascularization captured; preserve for clinical trace. 	|
+| PRED_3DIRCADB1.19_CT 	| 19             	| 263            	| 0.908                  	| 1.281                    	| 0.092               	| PLAUSIBLE PATHOLOGY      	| Tumor Neoangiogenesis Bed      	| APPROVE: Complex tumor vascularization captured; preserve for clinical trace. 	|
+| PRED_3DIRCADB1.1_CT  	| 4              	| 212            	| 0.581                  	| 1.279                    	| 0.419               	| IMPOSSIBLE HALLUCINATION 	| Biophysical Invariant Collapse 	| CRITICAL REJECT: Structure breaks physical laws; software model error.        	|
+| PRED_3DIRCADB1.4_CT  	| 7              	| 228            	| 0.779                  	| 1.293                    	| 0.221               	| PLAUSIBLE PATHOLOGY      	| Tumor Neoangiogenesis Bed      	| APPROVE: Complex tumor vascularization captured; preserve for clinical trace. 	|
+| PRED_3DIRCADB1.2_CT  	| 15             	| 226            	| 0.722                  	| 1.287                    	| 0.278               	| PLAUSIBLE PATHOLOGY      	| Tumor Neoangiogenesis Bed      	| APPROVE: Complex tumor vascularization captured; preserve for clinical trace. 	|
+| PRED_3DIRCADB1.5_CT  	| 15             	| 271            	| 0.857                  	| 1.272                    	| 0.143               	| IMPOSSIBLE HALLUCINATION 	| Biophysical Invariant Collapse 	| CRITICAL REJECT: Structure breaks physical laws; software model error.        	|
+| PRED_3DIRCADB1.20_CT 	| 22             	| 306            	| 0.914                  	| 1.277                    	| 0.086               	| IMPOSSIBLE HALLUCINATION 	| Biophysical Invariant Collapse 	| CRITICAL REJECT: Structure breaks physical laws; software model error.        	|
+| PRED_3DIRCADB1.3_CT  	| 9              	| 247            	| 0.634                  	| 1.276                    	| 0.366               	| PLAUSIBLE PATHOLOGY      	| Tumor Neoangiogenesis Bed      	| APPROVE: Complex tumor vascularization captured; preserve for clinical trace. 	|
+| PRED_3DIRCADB1.6_CT  	| 13             	| 254            	| 0.789                  	| 1.279                    	| 0.211               	| PLAUSIBLE PATHOLOGY      	| Tumor Neoangiogenesis Bed      	| APPROVE: Complex tumor vascularization captured; preserve for clinical trace. 	|
+| PRED_3DIRCADB1.8_CT  	| 4              	| 224            	| 0.495                  	| 1.274                    	| 0.505               	| PLAUSIBLE PATHOLOGY      	| Tumor Neoangiogenesis Bed      	| APPROVE: Complex tumor vascularization captured; preserve for clinical trace. 	|
+| PRED_3DIRCADB1.9_CT  	| 14             	| 260            	| 0.865                  	| 1.273                    	| 0.135               	| PLAUSIBLE PATHOLOGY      	| Tumor Neoangiogenesis Bed      	| APPROVE: Complex tumor vascularization captured; preserve for clinical trace. 	|
+| PRED_3DIRCADB1.7_CT  	| 10             	| 249            	| 0.774                  	| 1.279                    	| 0.226               	| IMPOSSIBLE HALLUCINATION 	| Biophysical Invariant Collapse 	| CRITICAL REJECT: Structure breaks physical laws; software model error.        	|
 
 The results of the ensemble of the GATSegDiff and nnUNet predictions on the MSD Task08 HepaticVessel Dataset.
 
