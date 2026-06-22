@@ -56,7 +56,7 @@ The results of the ensemble of the GATSegDiff and nnUNet predictions on the MSD 
 
 The results of the ensemble of the GATSegDiff and nnUNet predictions on the 3D-ircadb-01 Dataset.
 
-![alt text](https://github.com/Ivy300-byte/VesselSemble/blob/main/GATSegDff-and-nnUNet-on-3Dircadb.csv)
+![alt text](https://github.com/Ivy300-byte/VesselSemble/blob/GATSegDff-and-nnUNet-on-3Dircadb.csv)
 
 To then understandand what these results mean for these models we've tested, we set up biologivan invarant benchmarks using Murray's Law, Murray's deviatation, and area-expansion. Using our TDA results, we predictied how the statistics affected the numbers seen in each biophysical metric, and we compared it to the baseline metrics we set universally. The three benchmarks we used were "Valid Anatomy", which signifies healthy blood vessels that fit the ideal range for each invariant; "Plausible Tumor" which is mean to account for the reasonable range in which a model's prediction which move away from the ideal scenario given that most of the cases are dealing with hypervascular tumors that significantly disotrt natural physics properties; and lasty, we use "Impossible Hallucination" to represent those prediction's that would move past the plausibily range and generally signifies that a model likely made a serious error. 
 
