@@ -1,0 +1,119 @@
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+from copy import deepcopy
+
+# --- (Re-using component definitions from our working codebase) ---
+class ConvDropoutNormNonlin(nn.Module):
+    def __init__(self, in_c, out_c, conv_op=nn.Conv3d, conv_kwargs=None, norm_op=nn.InstanceNorm3d, norm_op_kwargs=None, dropout_op=nn.Dropout3d, dropout_op_kwargs=None, nonlin=nn.LeakyReLU, nonlin_kwargs=None):
+        super().__init__()
+        self.conv = conv_op(in_c, out_c, **(conv_kwargs or {'kernel_size': 3, 'padding': 1}))
+        self.drop = dropout_op(**(dropout_op_kwargs or {'p': 0})) if dropout_op else None
+        self.norm = norm_op(out_c, **(norm_op_kwargs or {'eps': 1e-5, 'affine': True}))
+        self.lrelu = nonlin(**(nonlin_kwargs or {'negative_slope': 1e-2, 'inplace': True}))
+    def forward(self, x):
+        x = self.conv(x)
+        if self.drop is not None: x = self.drop(x)
+        return self.lrelu(self.norm(x))
+
+class StackedConvLayers(nn.Module):
+    def __init__(self, in_c, out_c, num_convs, conv_op=nn.Conv3d, conv_kwargs=None, norm_op=nn.InstanceNorm3d, norm_op_kwargs=None, dropout_op=nn.Dropout3d, dropout_op_kwargs=None, nonlin=nn.LeakyReLU, nonlin_kwargs=None, first_stride=None):
+        super().__init__()
+        kw_first = deepcopy(conv_kwargs or {'kernel_size': 3, 'padding': 1})
+        if first_stride: kw_first['stride'] = first_stride
+        self.blocks = nn.Sequential(
+            ConvDropoutNormNonlin(in_c, out_c, conv_op, kw_first, norm_op, norm_op_kwargs, dropout_op, dropout_op_kwargs, nonlin, nonlin_kwargs),
+            *[ConvDropoutNormNonlin(out_c, out_c, conv_op, conv_kwargs, norm_op, norm_op_kwargs, dropout_op, dropout_op_kwargs, nonlin, nonlin_kwargs) for _ in range(num_convs - 1)]
+        )
+    def forward(self, x): return self.blocks(x)
+
+class Generic_UNet(nn.Module):
+    def __init__(self, in_c, base_f, num_classes, pool_op_kernel_sizes, conv_kernel_sizes, num_conv=2, conv_op=nn.Conv3d, norm_op=nn.InstanceNorm3d, deep_supervision=True, conv_pooling=False, conv_upsampling=True):
+        super().__init__()
+        self.deep_supervision, self.conv_pooling, self.conv_upsampling = deep_supervision, conv_pooling, conv_upsampling
+        max_f, num_pool = (320 if conv_op == nn.Conv3d else 480), len(pool_op_kernel_sizes)
+        
+        feats = []
+        current_feats = base_f
+        for i in range(num_pool + 1):
+            feats.append(current_feats)
+            current_feats = min(current_feats * 2, max_f)
+        
+        self.enc = nn.ModuleList()
+        for d in range(num_pool + 1):
+            st = pool_op_kernel_sizes[d-1] if (d > 0 and conv_pooling) else 1
+            kw = {'kernel_size': conv_kernel_sizes[d], 'padding': tuple(k // 2 for k in conv_kernel_sizes[d])}
+            self.enc.append(StackedConvLayers(in_c if d == 0 else feats[d-1], feats[d], num_conv, conv_op, kw, norm_op, first_stride=st))
+
+        self.tu, self.dec, self.seg_outputs = nn.ModuleList(), nn.ModuleList(), nn.ModuleList()
+        for u in range(num_pool):
+            f_left, f_deep = feats[-(u+2)], feats[-(u+1)]
+            current_pool_kernel, current_conv_kernel = pool_op_kernel_sizes[-(u+1)], conv_kernel_sizes[-(u+2)]
+            
+            if conv_upsampling:
+                up_op = nn.ConvTranspose2d if conv_op == nn.Conv2d else nn.ConvTranspose3d
+                self.tu.append(up_op(f_deep, f_left, kernel_size=current_pool_kernel, stride=current_pool_kernel, bias=False))
+            else:
+                self.tu.append(nn.Upsample(scale_factor=current_pool_kernel, mode='nearest'))
+            
+            self.dec.append(StackedConvLayers(2 * f_left, f_left, num_conv, conv_op, {'kernel_size': current_conv_kernel, 'padding': tuple(k // 2 for k in current_conv_kernel)}, norm_op))
+            self.seg_outputs.append(conv_op(f_left, num_classes, kernel_size=1, stride=1, padding=0, bias=False))
+                
+        self.apply(lambda m: nn.init.kaiming_normal_(m.weight, a=1e-2, nonlinearity='leaky_relu') if isinstance(m, (nn.Conv2d, nn.Conv3d, nn.ConvTranspose2d, nn.ConvTranspose3d)) else None)
+
+    def forward(self, x):
+        skips, seg_outs = [], []
+        print(f"\n{'='*15} 3DIRCADB ENCODER SHIFTS {'='*15}\nInput Volumetric Tensor Shape : {list(x.shape)}")
+        
+        for d in range(len(self.enc) - 1):
+            x = self.enc[d](x)
+            print(f"-> Enc Stage {d} Conv Output  : {list(x.shape)} (Saved to Skip)")
+            skips.append(x)
+            if not self.conv_pooling:
+                pool_fn = F.max_pool2d if x.dim() == 4 else F.max_pool3d
+                current_stride = self.tu[-(d+1)].stride if self.conv_upsampling else self.tu[-(d+1)].scale_factor
+                x = pool_fn(x, kernel_size=current_stride, stride=current_stride)
+                print(f"   [Max Pool Downscale Drop] : {list(x.shape)}")
+                
+        x = self.enc[-1](x)
+        print(f"-> Bottleneck Latent Node     : {list(x.shape)}\n\n{'='*15} 3DIRCADB DECODER SHIFTS {'='*15}")
+        
+        for u in range(len(self.tu)):
+            up_x = self.tu[u](x)
+            print(f"\n[Stage {u}] Transposed Conv Upsample : {list(up_x.shape)}")
+            x = torch.cat((up_x, skips[-(u+1)]), dim=1)
+            print(f"        Post-Concatenation Tensor   : {list(x.shape)}")
+            x = self.dec[u](x)
+            print(f"        Post-Localization Conv Out  : {list(x.shape)}")
+            if self.deep_supervision:
+                seg_head_out = self.seg_outputs[u](x)
+                seg_outs.append(seg_head_out)
+                print(f"        >> Deep Supervision Head Out: {list(seg_head_out.shape)}")
+                
+        print(f"\n{'='*14} SIMULATION DONE {'='*14}")
+        return seg_outs
+
+# =====================================================================
+# 3. 3DIRCADB EXECUTION HARNESS
+# =====================================================================
+if __name__ == "__main__":
+    # Isotropic Plan Properties typical for 3Dircadb
+    ircadb_pool = [(2, 2, 2), (2, 2, 2), (2, 2, 2), (2, 2, 2)]
+    ircadb_conv = [(3, 3, 3)] * 5
+    
+    # Commonly 4 channels for 3Dircadb when segmenting:
+    # 0: Background, 1: Liver, 2: Tumors, 3: Internal Venous Systems
+    ircadb_classes = 4  
+
+    model = Generic_UNet(
+        in_c=1, base_f=30, num_classes=ircadb_classes,
+        pool_op_kernel_sizes=ircadb_pool, conv_kernel_sizes=ircadb_conv,
+        conv_pooling=False, conv_upsampling=True, deep_supervision=True
+    ).eval()
+
+    # Isotropic input tensor cube: [Batch, Channel, Depth (Z), Height (Y), Width (X)]
+    # All spatial resolutions contract symmetrically at each level
+    simulated_volume = torch.randn(1, 1, 64, 64, 64)
+    
+    with torch.no_grad():
+        _ = model(simulated_volume)
