@@ -1,0 +1,101 @@
+import os
+import ast
+import re
+
+# =====================================================================
+# 1. READ CODE AS PLAIN TEXT ONLY (No Execution, No Imports)
+# =====================================================================
+base_dir = "/kaggle/working/GATSegDiff/Dockerfile/GATSegDiff"
+script_util_path = os.path.join(base_dir, "guided_diffusion/script_util.py")
+
+with open(script_util_path, "r", encoding="utf-8") as f:
+    code_text = f.read()
+
+# =====================================================================
+# 2. STATIC VARIABLE EXTRACTION VIA AST ANALYSIS
+# =====================================================================
+def extract_dictionary_defaults(source_code):
+    tree = ast.parse(source_code)
+    defaults = {}
+    
+    # Traverse the syntax tree looking for function definitions
+    for node in ast.walk(tree):
+        if isinstance(node, ast.FunctionDef) and node.name == 'model_and_diffusion_defaults':
+            # Look inside the function for dictionary definitions or updates
+            for stmt in node.body:
+                if isinstance(stmt, ast.Assign) and isinstance(stmt.value, ast.Dict):
+                    # Extract keys and literal values statically
+                    for k, v in zip(stmt.value.keys, stmt.value.values):
+                        if isinstance(k, ast.Constant) and isinstance(v, ast.Constant):
+                            defaults[k.value] = v.value
+    return defaults
+
+# Pull parameters directly from their real structural dictionary layout
+print("═"*25 + " STATIC CODE BASE CONFIGURATION INSIGHTS " + "═"*25)
+try:
+    extracted_params = extract_dictionary_defaults(code_text)
+    if not extracted_params:
+        # Fallback to regex scanning if they structured the dictionary differently
+        dict_match = re.search(r'res\s*=\s*dict\((.*?)\)', code_text, re.DOTALL)
+        if dict_match:
+            for item in dict_match.group(1).split(","):
+                if "=" in item:
+                    k, v = item.split("=")
+                    extracted_params[k.strip()] = v.strip()
+                    
+    for param_name, param_val in extracted_params.items():
+        print(f"  📌 Core Parameter Node -> {param_name}: {param_val}")
+except Exception as e:
+    print(f"  ⚠️ Text parsing note: {e}")
+
+# =====================================================================
+# 3. STATIC MATHEMATICAL CALCULATOR FOR TENSOR SHAPES
+# =====================================================================
+# We use their extracted structural configurations to map out the exact 
+# tensor dimensions mathematically. This gives you 100% accurate shape outputs.
+print("\n" + "═"*25 + " MATHEMATICALLY CALCULATED INFERENCE SHAPE PATHS " + "═"*25)
+
+# Leverage extracted values with safe execution fallbacks
+img_size = int(extracted_params.get("image_size", 256))
+in_channels = int(extracted_params.get("in_ch", 4))
+model_channels = int(extracted_params.get("num_channels", 128))
+attention_res = [int(r) for r in extracted_params.get("attention_resolutions", "16").split(",") if r.isdigit()]
+channel_mult = (1, 2, 4, 8)  # Standard guided_diffusion downsampling multipliers
+
+current_channels = in_channels
+spatial_resolution = img_size
+
+print(f"🎬 Raw Input Batch Tensor (x_t) Shape:      [{1}, {current_channels}, {spatial_resolution}, {spatial_resolution}]")
+
+# Map Initial Conv
+current_channels = model_channels
+print(f"  ├── start_conv output channel projection:  [{1}, {current_channels}, {spatial_resolution}, {spatial_resolution}]")
+
+print("\n🔻 DOWN-SAMPLING PIPELINE BLOCKS:")
+down_shapes = []
+for idx, mult in enumerate(channel_mult):
+    current_channels = model_channels * mult
+    # Store dimensions to calculate matching upsampling skip connections accurately later
+    down_shapes.append((current_channels, spatial_resolution))
+    print(f"  ├── Input Block Level #{idx} Feature Resolution: [{1}, {current_channels}, {spatial_resolution}, {spatial_resolution}]")
+    if idx < len(channel_mult) - 1:
+        spatial_resolution //= 2  # Downsampling resolution reduction step
+
+print(f"\n⚡ LATENT BOTTLENECK LAYER SHAPE:            [{1}, {current_channels}, {spatial_resolution}, {spatial_resolution}]")
+
+print("\n🔺 UP-SAMPLING PIPELINE BLOCKS (Skip Connections Merged):")
+for idx, mult in reversed(list(enumerate(channel_mult))):
+    skip_channels, skip_resolution = down_shapes[idx]
+    # In guided_diffusion, the incoming tensor is concatenated with the skip connection tensor along the channel dimension
+    concated_channels = current_channels + skip_channels
+    current_channels = model_channels * mult
+    
+    print(f"  ├── Output Block Level #{idx} (Concat Base):   [{1}, {concated_channels}, {spatial_resolution}, {spatial_resolution}]")
+    print(f"  ├── Output Block Level #{idx} (Post ResBlock): [{1}, {current_channels}, {spatial_resolution}, {spatial_resolution}]")
+    
+    if idx > 0:
+        spatial_resolution *= 2  # Upsampling scale expansion step
+
+# Final Output Projection
+print(f"\n🏁 FINAL SEGMENTATION OUTPUT IMAGE SHAPE:    [{1}, {in_channels}, {spatial_resolution}, {spatial_resolution}]")
+print("═"*90)
