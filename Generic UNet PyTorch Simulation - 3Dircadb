@@ -57,7 +57,7 @@ class Generic_UNet(nn.Module):
                 self.tu.append(nn.Upsample(scale_factor=current_pool_kernel, mode='nearest'))
             
             self.dec.append(StackedConvLayers(2 * f_left, f_left, num_conv, conv_op, {'kernel_size': current_conv_kernel, 'padding': tuple(k // 2 for k in current_conv_kernel)}, norm_op))
-            self.seg_outputs.append(conv_op(f_left, num_classes, kernel_size=1, stride=1, padding=0, bias=False))
+            self.seg_outputs.insert(0, conv_op(f_left, num_classes, kernel_size=1, stride=1, padding=0, bias=False))
                 
         self.apply(lambda m: nn.init.kaiming_normal_(m.weight, a=1e-2, nonlinearity='leaky_relu') if isinstance(m, (nn.Conv2d, nn.Conv3d, nn.ConvTranspose2d, nn.ConvTranspose3d)) else None)
 
@@ -86,7 +86,7 @@ class Generic_UNet(nn.Module):
             x = self.dec[u](x)
             print(f"        Post-Localization Conv Out  : {list(x.shape)}")
             if self.deep_supervision:
-                seg_head_out = self.seg_outputs[u](x)
+                seg_head_out = self.seg_outputs[-(u+1)](x)
                 seg_outs.append(seg_head_out)
                 print(f"        >> Deep Supervision Head Out: {list(seg_head_out.shape)}")
                 
@@ -108,7 +108,7 @@ if __name__ == "__main__":
     model = Generic_UNet(
         in_c=1, base_f=30, num_classes=ircadb_classes,
         pool_op_kernel_sizes=ircadb_pool, conv_kernel_sizes=ircadb_conv,
-        conv_pooling=False, conv_upsampling=True, deep_supervision=True
+        conv_pooling=True, conv_upsampling=True, deep_supervision=True
     ).eval()
 
     # Isotropic input tensor cube: [Batch, Channel, Depth (Z), Height (Y), Width (X)]
