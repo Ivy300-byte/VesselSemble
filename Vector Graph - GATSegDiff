@@ -1,0 +1,118 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.cm as cm
+
+# =====================================================================
+# 1. LOAD / SIMULATE EXACT 4D PIPELINE DATASET
+# =====================================================================
+np.random.seed(42)
+n_points = 100
+t = np.linspace(0, 1, n_points)
+
+# True 4D Positions Array: (100, 4)
+positions = np.zeros((n_points, 4))
+for i in range(4):
+    positions[:, i] = np.sin((i + 1) * np.pi * t) * (15 / (i + 1)) + (t * 10)
+
+# Calculate Arc Length (Cumulative Distance)
+step_distances = np.linalg.norm(np.diff(positions, axis=0), axis=1)
+arc_length = np.concatenate(([0], np.cumsum(step_distances)))
+total_distance = arc_length[-1]
+
+# =====================================================================
+# 2. DERIVED 4D TNB FRAME ARRAYS & CURVATURE
+# =====================================================================
+# Tangent Vector (e1)
+dt = np.gradient(positions, axis=0)
+e1 = dt / np.linalg.norm(dt, axis=1, keepdims=True)
+
+# Normal Vector (e2)
+de1 = np.gradient(e1, axis=0)
+e2 = de1 / np.linalg.norm(de1, axis=1, keepdims=True)
+
+# Binormal Vector (e3) - Orthogonalized via Gram-Schmidt
+de2 = np.gradient(e2, axis=0)
+e3_raw = de2 - np.sum(de2 * e1, axis=1, keepdims=True) * e1 - np.sum(de2 * e2, axis=1, keepdims=True) * e2
+e3 = e3_raw / np.linalg.norm(e3_raw, axis=1, keepdims=True)
+
+# Calculate Curvature (kappa = ||d_e1 / ds|| = ||d_e1/dt|| / ||d_pos/dt||)
+ds_dt = np.linalg.norm(dt, axis=1)
+de1_dt = np.linalg.norm(np.gradient(e1, axis=0), axis=1)
+curvature = de1_dt / ds_dt
+
+peak_curvature = np.max(curvature)
+avg_curvature = np.mean(curvature)
+
+# =====================================================================
+# 3. PRINT AUTOMATED 4D PIPELINE SUMMARY
+# =====================================================================
+print("--- Automated 4D Pipeline Summary ---")
+print(f"Detected Dimensions: {positions.shape[1]}")
+print(f"Total Traveled Distance (s): {total_distance:.4f}")
+print(f"Peak Local Curve Curvature: {peak_curvature:.4f}")
+print(f"Average Local Curve Curvature: {avg_curvature:.4f}")
+print("\nOutput Matrix Shapes:")
+print(f"Positions Array: {positions.shape}")
+print(f"Tangent Frame Array (e1): {e1.shape}")
+print(f"Normal Frame Array (e2): {e2.shape}")
+print(f"Binormal Frame Array (e3): {e3.shape}")
+
+# =====================================================================
+# 4. COHESIVE PLOT SETUP
+# =====================================================================
+fig = plt.figure(figsize=(16, 7))
+cmap = cm.plasma
+norm = plt.Normalize(arc_length.min(), arc_length.max())
+dim_indices = np.arange(4)
+dim_labels = ['Dim 1', 'Dim 2', 'Dim 3', 'Dim 4']
+
+# --- LEFT PANEL: 4D Parallel Coordinates Path Trajectory ---
+ax1 = fig.add_subplot(121)
+ax1.set_title("Cohesive 4D Pipeline Trajectory Profile", fontsize=12, fontweight='bold', pad=15)
+
+for idx in range(n_points):
+    color = cmap(norm(arc_length[idx]))
+    ax1.plot(dim_indices, positions[idx, :], color=color, alpha=0.7, lw=2)
+
+ax1.set_xticks(dim_indices)
+ax1.set_xticklabels(dim_labels)
+ax1.set_ylabel("True Spatial Coordinates")
+ax1.grid(True, axis='x', linestyle='--', alpha=0.7)
+
+# Continuous tracking colorbar for arc length
+sm = cm.ScalarMappable(cmap=cmap, norm=norm)
+sm.set_array([])
+cbar = fig.colorbar(sm, ax=ax1, orientation='horizontal', pad=0.15)
+cbar.set_label('Cumulative Arc Length (Traveled Distance)')
+
+# --- RIGHT PANEL: 4D Radar Matrix for TNB Frame Alignments ---
+ax2 = fig.add_subplot(122, projection='polar')
+ax2.set_title("Cohesive 4D TNB Frame Vector Alignments", fontsize=12, fontweight='bold', pad=20)
+
+# Connect back to the first dimension to close the radar loop
+radar_angles = np.linspace(0, 2 * np.pi, 4, endpoint=False)
+radar_angles = np.concatenate((radar_angles, [radar_angles[0]]))
+
+# Average out frame behaviors over the entire path
+mean_e1 = np.concatenate((np.mean(np.abs(e1), axis=0), [np.mean(np.abs(e1), axis=0)[0]]))
+mean_e2 = np.concatenate((np.mean(np.abs(e2), axis=0), [np.mean(np.abs(e2), axis=0)[0]]))
+mean_e3 = np.concatenate((np.mean(np.abs(e3), axis=0), [np.mean(np.abs(e3), axis=0)[0]]))
+
+# Plot structural frame footprints
+ax2.plot(radar_angles, mean_e1, color='#1f77b4', lw=2.5, label='Tangent ($e_1$) Footprint')
+ax2.fill(radar_angles, mean_e1, color='#1f77b4', alpha=0.15)
+
+ax2.plot(radar_angles, mean_e2, color='#ff7f0e', lw=2.5, label='Normal ($e_2$) Footprint')
+ax2.fill(radar_angles, mean_e2, color='#ff7f0e', alpha=0.15)
+
+ax2.plot(radar_angles, mean_e3, color='#9467bd', lw=2.5, label='Binormal ($e_3$) Footprint')
+ax2.fill(radar_angles, mean_e3, color='#9467bd', alpha=0.15)
+
+# Labeling radar spines
+ax2.set_xticks(radar_angles[:-1])
+ax2.set_xticklabels(dim_labels)
+ax2.set_yticklabels([]) 
+ax2.legend(loc='upper right', bbox_to_anchor=(1.3, 1.1))
+
+plt.tight_layout()
+plt.show()
