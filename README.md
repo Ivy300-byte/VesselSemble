@@ -1,12 +1,12 @@
 # VesselSemble
-An evaluation of top-performing models for accurate, complete liver vessel segmentation. For this study we looked at the models from by the nnUNet and GATSegDiff pipelines for vessel segmentation, and we were specifically looking at how to GATSegDiff model reacts to noisier, less polished data, as well how the model reacts toawrds other models trained and tested on such data when combined together.
+An evaluation of top-performing models for accurate, complete liver vessel segmentation. For this study I looked at the models from by the nnUNet and GATSegDiff pipelines for vessel segmentation, and I was specifically looking at how to GATSegDiff model reacts to noisier, less polished data, as well how the model reacts toawrds other models trained and tested on such data when combined together.
 
 These are the links to all necessary repositories for setting the necessary pipelines. They both provide ways to build the model from scratch, but they both also have the models available to download as pretraines weights:
 - https://github.com/ZhangXiaotong015/GATSegDiff 
 - https://github.com/MIC-DKFZ/nnUNet/tree/nnunetv1 - For this experiment you would need to download the MSD Task08 HeapicVessel dataset from the Medical Decathlon google drive link. The link is here:
 https://drive.google.com/file/d/1qVrpV7vmhIsUxFiH189LmAn0ALbAPrgS/view?usp=drivesdk
 
-These are the links to the pretrained weights that we used for the study. The nnUNet model is the one from the Zenodo link, and the GATSegDiff model is the one from the google dirve link:
+These are the links to the pretrained weights that I used for the study. The nnUNet model is the one from the Zenodo link, and the GATSegDiff model is the one from the google dirve link:
 - https://zenodo.org/records/4003545 - Look for and Dowanload Task008_HepaticVessel.zip.
 - https://drive.google.com/drive/folders/1V9NtZingw9XQmFGbGGFOE59vtF6iDeck - Look for and Download LiVS_reannotated_subset_F0_model160000.pt.
 
