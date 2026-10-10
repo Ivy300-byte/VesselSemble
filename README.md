@@ -37,6 +37,3 @@ Some of the datases didn't come with gorund truth segmentations and I wanted to 
 
 To then understandand what these results mean for these models I've tested, I set up biological invarant benchmarks using Murray's Law, Murray's deviatation, and area-expansion. Using my TDA results, I predictied how the statistics affected the numbers seen in each biophysical metric, and I compared it to the baseline metrics we set universally. The three benchmarks we used were "Valid Anatomy", which signifies healthy blood vessels that fit the ideal range for each invariant; "Plausible Tumor" which is mean to account for the reasonable range in which a model's prediction which move away from the ideal scenario given that most of the cases are dealing with hypervascular tumors that significantly disotrt natural physics properties; and lasty, I use "Impossible Hallucination" to represent those prediction's that would move past the plausibily range and generally signifies that a model likely made a serious error. 
 
-Below is a link to where all the background work done in relation to the work, including annotations, notes, mathematical write outs and code derivations live.
-
-https://drive.google.com/drive/folders/1IopxW9agZqsi91WXQkGZC1z2-QUiklw3?usp=drive_link
